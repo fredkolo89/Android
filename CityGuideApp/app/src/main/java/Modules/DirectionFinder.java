@@ -87,10 +87,10 @@ public class DirectionFinder {
                     while ((line = reader.readLine()) != null) {
                         buffers.set(i, buffers.get(i).append(line + "\n"));
                     }
+                }
 
-                    for (StringBuffer buf : buffers) {
-                        buffer.add(buf.toString());
-                    }
+                for (StringBuffer buf : buffers) {
+                    buffer.add(buf.toString());
                 }
                 return buffer;
 

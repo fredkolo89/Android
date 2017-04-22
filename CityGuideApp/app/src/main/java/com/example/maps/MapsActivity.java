@@ -116,7 +116,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    sendRequest();
+                                    List <String> checkPlaces = new ArrayList<>();
+                                    for(BarcodeItem res : results){
+                                        if(!res.getName().equals(etOrigin.getText()) && !res.getName().equals(etDestination.getText())){
+                                            checkPlaces.add(res.getName());
+                                        }
+                                    }
+                                    sendRequest(checkPlaces);
                                 }
                             });
                         } catch (final Exception e){
@@ -188,7 +194,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void sendRequest() {
+    private void sendRequest(List <String> allPoints) {
         String origin = etOrigin.getText().toString();
         String destination = etDestination.getText().toString();
         if (origin.isEmpty()) {
@@ -201,7 +207,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         try {
-            new DirectionFinder(this, origin, destination).execute();
+            if(findAll.isChecked()){
+                new DirectionFinder(this, origin, destination, allPoints).execute();
+            }
+            else{
+                new DirectionFinder(this, origin, destination, null).execute();
+            }
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

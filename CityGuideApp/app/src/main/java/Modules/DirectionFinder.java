@@ -28,30 +28,36 @@ public class DirectionFinder {
     private DirectionFinderListener listener;
     private String origin;
     private String destination;
+    private List <String> allPoints;
 
-    public DirectionFinder(DirectionFinderListener listener, String origin, String destination) {
+    public DirectionFinder(DirectionFinderListener listener, String origin, String destination, List <String> allPoints) {
         this.listener = listener;
         this.origin = origin;
         this.destination = destination;
+        this.allPoints = allPoints;
     }
+
 
     public void execute() throws UnsupportedEncodingException {
         listener.onDirectionFinderStart();
-        List<String> a = new ArrayList<>();
-        a.add("Kielce");
-        a.add("Opole");
 
-        List<String> b = new ArrayList<>();
-        b.add("Gdynia");
-        b.add("Wrocław");
 
         List <String> find = new ArrayList<>();
-
-        for(int i=0; i<2; i++) {
-
-            find.add(createUrl(a.get(i), b.get(i)));
+        find.add(origin);
+        if(allPoints!=null) {
+            for (String place : allPoints) {
+                find.add(place);
+            }
         }
-        new DownloadRawData().execute(find);
+        find.add(destination);
+
+        List <String> find2 = new ArrayList<>();
+
+        for(int i=0; i<find.size()-1; i++) {
+
+            find2.add(createUrl(find.get(i), find.get(i+1)));
+        }
+        new DownloadRawData().execute(find2);
     }
 
     private String createUrl(String a, String b) throws UnsupportedEncodingException {
@@ -115,6 +121,43 @@ public class DirectionFinder {
     }
 
     private void parseJSon(List <String> data) throws JSONException {
+
+        List<Route> routes = new ArrayList<Route>();
+        for(String dat : data) {
+            if (data == null)
+                return;
+
+
+            JSONObject jsonData = new JSONObject(dat);
+            JSONArray jsonRoutes = jsonData.getJSONArray("routes");
+            for (int i = 0; i < jsonRoutes.length(); i++) {
+                JSONObject jsonRoute = jsonRoutes.getJSONObject(i);
+                Route route = new Route();
+
+                JSONObject overview_polylineJson = jsonRoute.getJSONObject("overview_polyline");
+                JSONArray jsonLegs = jsonRoute.getJSONArray("legs");
+                JSONObject jsonLeg = jsonLegs.getJSONObject(0);
+                JSONObject jsonDistance = jsonLeg.getJSONObject("distance");
+                JSONObject jsonDuration = jsonLeg.getJSONObject("duration");
+                JSONObject jsonEndLocation = jsonLeg.getJSONObject("end_location");
+                JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
+
+                route.distance = new Distance(jsonDistance.getString("text"), jsonDistance.getInt("value"));
+                route.duration = new Duration(jsonDuration.getString("text"), jsonDuration.getInt("value"));
+                route.endAddress = jsonLeg.getString("end_address");
+                route.startAddress = jsonLeg.getString("start_address");
+                route.startLocation = new LatLng(jsonStartLocation.getDouble("lat"), jsonStartLocation.getDouble("lng"));
+                route.endLocation = new LatLng(jsonEndLocation.getDouble("lat"), jsonEndLocation.getDouble("lng"));
+                route.points = decodePolyLine(overview_polylineJson.getString("points"));
+
+
+                routes.add(route);
+            }
+        }
+        listener.onDirectionFinderSuccess(routes);
+    }
+
+    private void findBestWay(List <String> data) throws JSONException {
 
         List<Route> routes = new ArrayList<Route>();
         for(String dat : data) {

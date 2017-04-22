@@ -300,6 +300,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         originMarkers = new ArrayList<>();
         destinationMarkers = new ArrayList<>();
 
+        PolylineOptions polylineOptions = new PolylineOptions();
+
         for (Route route : routes) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
             ((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
@@ -312,7 +314,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .title(route.endAddress)
                     .position(route.endLocation)));
 
-            PolylineOptions polylineOptions = new PolylineOptions().
+            polylineOptions.
                     geodesic(true).
                     color(Color.BLUE).
                     width(10);
@@ -320,8 +322,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             for (int i = 0; i < route.points.size(); i++)
                 polylineOptions.add(route.points.get(i));
 
-            polylinePaths.add(mMap.addPolyline(polylineOptions));
+
         }
+        polylinePaths.add(mMap.addPolyline(polylineOptions));
     }
 
 

@@ -213,6 +213,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    public void itemClicked(View v) {
+        //code to check if this checkbox is checked!
+
+        if(findAll.isChecked()){
+                checkFromAll.setVisibility(View.INVISIBLE);
+        }
+        else{
+            checkFromAll.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (etOrigin.getText().equals("Origin address") && data.getStringExtra("NAMA_PERASAT")!=null) {

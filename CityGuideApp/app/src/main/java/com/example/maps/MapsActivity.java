@@ -353,11 +353,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         destinationMarkers = new ArrayList<>();
 
         PolylineOptions polylineOptions = new PolylineOptions();
+        float dist = 0;
+        String distS = new String();
 
         for (Route route : routes) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
-            ((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
-            ((TextView) findViewById(R.id.tvDistance)).setText(route.distance.text);
+            distS = route.distance.text.replaceAll(",", ".");
+            distS = distS.replaceAll(" ", "");
+            distS = distS.replaceAll("km", "");
+            dist = dist + Float.parseFloat(distS);
+
+            //((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
+            ((TextView) findViewById(R.id.tvDistance)).setText(Float.toString(dist));
 
             originMarkers.add(mMap.addMarker(new MarkerOptions()
                     .title(route.startAddress)

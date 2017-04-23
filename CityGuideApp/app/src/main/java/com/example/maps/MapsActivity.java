@@ -67,11 +67,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Polyline> polylinePaths = new ArrayList<>();
     private ProgressDialog progressDialog;
     private CheckBox findAll;
+    private Button checkFromAll;
 
     private List<BarcodeItem> barcodeItems = new ArrayList<>();
+    private ArrayList<String> listCheckPlaces = new ArrayList<>();
 
     private int SOME_REQUEST_CODE;
-
 
     private MobileServiceClient mClient;
 
@@ -93,6 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         etOrigin = (Button) findViewById(R.id.origin_address);
         etDestination = (Button) findViewById(R.id.destination_address);
         findAll = (CheckBox) findViewById(R.id.checkBox_find_all);
+        checkFromAll = (Button)findViewById(R.id.checkPlacesFromAll);
 
         btnFindPath.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,13 +118,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+
                                     List <String> checkPlaces = new ArrayList<>();
-                                    for(BarcodeItem res : results){
-                                        if(!res.getName().equals(etOrigin.getText()) && !res.getName().equals(etDestination.getText())){
-                                            checkPlaces.add(res.getName());
+
+
+                                    if(findAll.isChecked()){
+                                        for(BarcodeItem res : results){
+                                            if(!res.getName().equals(etOrigin.getText()) && !res.getName().equals(etDestination.getText())){
+                                                checkPlaces.add(res.getName());
+                                            }
                                         }
+                                        sendRequest(checkPlaces);
+
                                     }
-                                    sendRequest(checkPlaces);
+                                    else if(listCheckPlaces.size()>0)  {
+                                        for(String res : listCheckPlaces){
+                                            if(!res.equals(etOrigin.getText()) && !res.equals(etDestination.getText())){
+                                                checkPlaces.add(res);
+                                            }
+                                        }
+                                        listCheckPlaces.clear();
+
+                                        sendRequest(checkPlaces);
+                                    }
+                                    else{
+                                        sendRequest(null);
+                                    }
                                 }
                             });
                         } catch (final Exception e){
@@ -136,7 +157,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 runAsyncTask(task);
             }
         });
-
 
         try {
 
@@ -170,14 +190,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Exception e) {
             createAndShowDialog(e, "Error");
         }
+
+
     }
+
+    public void checkPlacesFromAll(View view) {
+        Intent intent = new Intent(this, PlacesCheckChoose.class);
+        startActivityForResult(intent, SOME_REQUEST_CODE);
+    }
+
 
     public void chosePlaceOrigin(View view) {
         Intent intent = new Intent(this, PlacesChoose.class);
         startActivityForResult(intent, SOME_REQUEST_CODE);
-
-
     }
+
 
     public void chosePlaceDestination(View view) {
         Intent intent = new Intent(this, PlacesChoose.class);
@@ -185,12 +212,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (etOrigin.getText().equals("Origin address"))
+        if (etOrigin.getText().equals("Origin address") && data.getStringExtra("NAMA_PERASAT")!=null) {
             etOrigin.setText(data.getStringExtra("NAMA_PERASAT"));
+            etDestination.setVisibility(View.VISIBLE);
+        }
         else
             etDestination.setText(data.getStringExtra("NAMA_PERASAT"));
+
+        if(data.getStringArrayListExtra("NAMA_List_PERASAT")!=null){
+            listCheckPlaces = data.getStringArrayListExtra("NAMA_List_PERASAT");
+        }
     }
 
 
@@ -207,12 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         try {
-            if(findAll.isChecked()){
                 new DirectionFinder(this, origin, destination, allPoints).execute();
-            }
-            else{
-                new DirectionFinder(this, origin, destination, null).execute();
-            }
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -470,7 +499,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //barcodeItems=output;
 
     }
-
 
 
     public class trzask extends AsyncTask<Void, Void,  List<BarcodeItem>> {

@@ -7,7 +7,8 @@
     tools:context="com.example.maps.MapsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"  >
+    android:orientation="vertical"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,14 +31,29 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
     <Button
         android:id="@+id/destination_address"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
         android:onClick="chosePlaceDestination"
-        android:text="Destination address" />
+        android:text="Destination address"
+        android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/checkPlacesFromAll"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:onClick="checkPlacesFromAll"
+            android:text="Check" />
 
 
+    </LinearLayout>
 
 
     <LinearLayout

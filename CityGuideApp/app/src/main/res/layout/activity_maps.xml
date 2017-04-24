@@ -61,36 +61,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        >
+        android:weightSum="1">
+
         <Button
+            android:id="@+id/btnFindPath"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find path"
-            android:id="@+id/btnFindPath" />
-        <ImageView
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 km"
-            android:id="@+id/tvDistance" />
+            android:text="Find path" />
 
         <ImageView
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:padding="5dp"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp" />
+
         <TextView
-            android:layout_marginLeft="5dp"
+            android:id="@+id/tvDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0 min"
-            android:id="@+id/tvDuration" />
+            android:layout_marginLeft="5dp"
+            android:text="0 km" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.15" />
+
+        <Button
+            android:id="@+id/driverMode"
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.40"
+            android:text="Srodek"
+            android:onClick="chooseDriverMode"/>
+
     </LinearLayout>
 
 

@@ -1,7 +1,9 @@
 package com.example.barcode;
 
 
-public class BarcodeItem {
+import java.io.Serializable;
+
+public class BarcodeItem implements Serializable{
 
     @com.google.gson.annotations.SerializedName("id")
     private String id;

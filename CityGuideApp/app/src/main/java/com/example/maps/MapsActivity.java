@@ -18,7 +18,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.barcode.AsyncResponse;
 import com.example.barcode.BarcodeItem;
 import com.example.cityguideapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,23 +30,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceException;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.sync.MobileServiceSyncContext;
-import com.microsoft.windowsazure.mobileservices.table.sync.localstore.ColumnDataType;
 import com.microsoft.windowsazure.mobileservices.table.sync.localstore.MobileServiceLocalStoreException;
-import com.microsoft.windowsazure.mobileservices.table.sync.localstore.SQLiteLocalStore;
-import com.microsoft.windowsazure.mobileservices.table.sync.synchandler.SimpleSyncHandler;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -56,7 +48,7 @@ import Modules.DirectionFinderListener;
 import Modules.Route;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, AsyncResponse {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, Serializable {
 
     private GoogleMap mMap;
     private Button btnFindPath;
@@ -85,11 +77,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private MobileServiceTable<BarcodeItem> mToDoTable;
 
 
+
+    List<BarcodeItem> thumbs= new ArrayList<>();
+    List<String> namePlace= new ArrayList<>();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        thumbs = (List<BarcodeItem>)bundle.getSerializable("value");
+
+        for(BarcodeItem ent : thumbs){
+            namePlace.add(ent.getName());
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -119,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     protected Void doInBackground(Void... params) {
 
                         try {
-                            final List<BarcodeItem> results = refreshItemsFromMobileServiceTable();
+
 
                             //Offline Sync
                             //final List<ToDoItem> results = refreshItemsFromMobileServiceTableSyncTable();
@@ -134,7 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                                     if(findAll.isChecked()){
-                                        for(BarcodeItem res : results){
+                                        for(BarcodeItem res : thumbs){
                                             if(!res.getName().equals(etOrigin.getText()) && !res.getName().equals(etDestination.getText())){
                                                 checkPlaces.add(res.getName());
                                             }
@@ -187,14 +192,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             mToDoTable = mClient.getTable(BarcodeItem.class);
 
-            initLocalStore().get();
 
 
-            MapsActivity.trzask asyncTask = new MapsActivity.trzask();
-
-            asyncTask.delegate = this;
-
-            asyncTask.execute();
 
         } catch (MalformedURLException e) {
             createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
@@ -207,23 +206,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void checkPlacesFromAll(View view) {
         Intent intent = new Intent(this, PlacesCheckChoose.class);
+
+        intent.putStringArrayListExtra("cos", (ArrayList<String>) namePlace);
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
 
     public void chosePlaceOrigin(View view) {
         Intent intent = new Intent(this, PlacesChoose.class);
+        intent.putStringArrayListExtra("cos", (ArrayList<String>) namePlace);
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
 
     public void chosePlaceDestination(View view) {
         Intent intent = new Intent(this, PlacesChoose.class);
+        intent.putStringArrayListExtra("cos", (ArrayList<String>) namePlace);
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
     public void chooseDriverMode(View view) {
         Intent intent = new Intent(this, DriveChoose.class);
+        intent.putStringArrayListExtra("cos", (ArrayList<String>) namePlace);
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
@@ -294,7 +298,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             protected Void doInBackground(Void... params) {
 
                 try {
-                    final List<BarcodeItem> results = refreshItemsFromMobileServiceTable();
+
 
                     //Offline Sync
                     //final List<ToDoItem> results = refreshItemsFromMobileServiceTableSyncTable();
@@ -306,7 +310,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         public void run() {
                             mMap = googleMap;
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(50.880618,20.637981), 10));
-                            for (BarcodeItem item : results) {
+                            for (BarcodeItem item : thumbs) {
                                 originMarkers.add(mMap.addMarker(new MarkerOptions()
                                         .title(item.getName())
                                         .position(new LatLng(Double.parseDouble(item.getWidthtPosition()), Double.parseDouble(item.getLengthPosition())))));
@@ -335,14 +339,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         runAsyncTask(task);
     }
-
-
-
-
-    private List<BarcodeItem> refreshItemsFromMobileServiceTable() throws ExecutionException, InterruptedException, MobileServiceException {
-        return mToDoTable.execute().get();
-    }
-
 
 
 
@@ -421,48 +417,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    private AsyncTask<Void, Void, Void> initLocalStore() throws MobileServiceLocalStoreException, ExecutionException, InterruptedException {
 
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-
-                    MobileServiceSyncContext syncContext = mClient.getSyncContext();
-
-                    if (syncContext.isInitialized())
-                        return null;
-
-                    SQLiteLocalStore localStore = new SQLiteLocalStore(mClient.getContext(), "OfflineStore", null, 1);
-
-                    Map<String, ColumnDataType> tableDefinition = new HashMap<String, ColumnDataType>();
-                    tableDefinition.put("id", ColumnDataType.String);
-                    tableDefinition.put("deleted", ColumnDataType.Boolean);
-                    tableDefinition.put("lengthPosition", ColumnDataType.String);
-                    tableDefinition.put("widthtPosition", ColumnDataType.String);
-                    tableDefinition.put("descriptionFirst", ColumnDataType.String);
-                    tableDefinition.put("descriptionSecond", ColumnDataType.String);
-                    tableDefinition.put("name", ColumnDataType.String);
-                    tableDefinition.put("imageLinkFirst", ColumnDataType.String);
-                    tableDefinition.put("imageLinkSecond", ColumnDataType.String);
-
-
-                    localStore.defineTable("barcodeItem", tableDefinition);
-
-                    SimpleSyncHandler handler = new SimpleSyncHandler();
-
-                    syncContext.initialize(localStore, handler).get();
-
-                } catch (final Exception e) {
-                    createAndShowDialogFromTask(e, "Error");
-                }
-
-                return null;
-            }
-        };
-
-        return runAsyncTask(task);
-    }
 
     /**
      * Creates a dialog and shows it
@@ -528,58 +483,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    @Override
-    public void processFinish(BarcodeItem output) {
-
-        //etOrigin.setText(output.getName());
-
-    }
-
-    @Override
-    public void processFinish(List<BarcodeItem> output) {
-        // etOrigin = (Button) findViewById(R.id.origin_address);
-
-        //etOrigin.setText(output.get(0).getName());
-        //barcodeItems=output;
-
-    }
 
 
 
 
-    public class trzask extends AsyncTask<Void, Void,  List<BarcodeItem>> {
-
-        public AsyncResponse delegate = null;
-        List<BarcodeItem>  desig= new ArrayList<>();
-
-
-
-        @Override
-        protected  List<BarcodeItem> doInBackground(Void... params) {
-            try {
-                final MobileServiceList<BarcodeItem> result =
-                        mToDoTable.execute().get();
-                for (BarcodeItem item : result) {
-
-
-                    desig.add(item);
-                   // Log.v("FINALLY DESIGNATION IS", desig.getId());
-
-                }
-
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            return desig;
-        }
-
-        @Override
-        protected void onPostExecute( List<BarcodeItem> los) {
-            // super.onPostExecute(los);
-            //textView.setText(los.get(0));
-            delegate.processFinish(los);
-        }
-    }
 
 
 }

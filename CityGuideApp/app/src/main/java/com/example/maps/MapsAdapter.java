@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
-import com.example.barcode.BarcodeItem;
 import com.example.cityguideapp.R;
 
 /**
  * Adapter to bind a ToDoItem List to a view
  */
-public class MapsAdapter extends ArrayAdapter<BarcodeItem> {
+public class MapsAdapter extends ArrayAdapter<String> {
 
     /**
      * Adapter context
@@ -40,7 +39,7 @@ public class MapsAdapter extends ArrayAdapter<BarcodeItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
 
-        final BarcodeItem currentItem = getItem(position);
+        final String currentItem = getItem(position);
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -52,7 +51,7 @@ public class MapsAdapter extends ArrayAdapter<BarcodeItem> {
 
             row.setTag(currentItem);
 
-            button.setText(currentItem.getName());
+            button.setText(currentItem);
 
 
 
@@ -63,7 +62,7 @@ public class MapsAdapter extends ArrayAdapter<BarcodeItem> {
 
                     if (mContext instanceof PlacesChoose) {
                         PlacesChoose activity = (PlacesChoose) mContext;
-                        activity.addtocart(currentItem.getName());
+                        activity.addtocart(currentItem);
                     }
                 }
 

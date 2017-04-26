@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 
-import com.example.barcode.BarcodeItem;
 import com.example.cityguideapp.R;
 
 /**
  * Adapter to bind a ToDoItem List to a view
  */
-public class MapsCheckAdapter extends ArrayAdapter<BarcodeItem> {
+public class MapsCheckAdapter extends ArrayAdapter<String> {
 
     /**
      * Adapter context
@@ -40,7 +39,7 @@ public class MapsCheckAdapter extends ArrayAdapter<BarcodeItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
 
-        final BarcodeItem currentItem = getItem(position);
+        final String currentItem = getItem(position);
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -52,7 +51,7 @@ public class MapsCheckAdapter extends ArrayAdapter<BarcodeItem> {
 
             row.setTag(currentItem);
 
-            check.setText(currentItem.getName());
+            check.setText(currentItem);
 
                      check.setOnClickListener(new View.OnClickListener() {
 
@@ -61,7 +60,7 @@ public class MapsCheckAdapter extends ArrayAdapter<BarcodeItem> {
                         if (check.isChecked()) {
                             if (mContext instanceof PlacesCheckChoose) {
                                 PlacesCheckChoose activity = (PlacesCheckChoose) mContext;
-                                activity.addToList(currentItem.getName());
+                                activity.addToList(currentItem);
                             }
                         }
                     }

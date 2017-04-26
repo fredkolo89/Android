@@ -39,6 +39,8 @@ public class MenuActivity extends Activity {
                 integrator.initiateScan();
             }
         });
+
+        
     }
 
 
@@ -71,6 +73,12 @@ public class MenuActivity extends Activity {
     }
 
     public void OpenMaps(View view) {
+
+
+
+
+
+
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }

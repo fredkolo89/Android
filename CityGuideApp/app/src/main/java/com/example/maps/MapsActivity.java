@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -74,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String driveMode = "driving";
     private String originText = "Start";
     private String destinationText ="Koniec";
-    private ArrayAdapter<String> adapter;
+    private String drive = "driving";
 
     private List<BarcodeItem> barcodeItems = new ArrayList<>();
     private ArrayList<String> listCheckPlaces = new ArrayList<>();
@@ -224,8 +223,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void chooseDriverMode(View view) {
-
-
+        Intent intent = new Intent(this, DriveChoose.class);
+        startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
 
@@ -245,15 +244,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (etOrigin.getText().equals("Start") && data.getStringExtra("NAMA_PERASAT")!=null) {
             originText=data.getStringExtra("NAMA_PERASAT");
             etOrigin.setText(originText);
-            etDestination.setVisibility(View.VISIBLE);
         }
-        else
-            destinationText=data.getStringExtra("NAMA_PERASAT");
+        else if(data.getStringExtra("NAMA_PERASAT")!=null){
+            destinationText = data.getStringExtra("NAMA_PERASAT");
             etDestination.setText(destinationText);
-
+        }
         if(data.getStringArrayListExtra("NAMA_List_PERASAT")!=null){
             listCheckPlaces = data.getStringArrayListExtra("NAMA_List_PERASAT");
         }
+
+        if(data.getStringExtra("driveWay")!=null){
+            drive = data.getStringExtra("driveWay");
+            mode.setText(drive);
+        }
+
+
+
+
 
     }
 
@@ -271,7 +278,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         try {
-                new DirectionFinder(this, origin, destination, allPoints).execute();
+                new DirectionFinder(this, origin, destination, allPoints, mode.getText().toString()).execute();
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

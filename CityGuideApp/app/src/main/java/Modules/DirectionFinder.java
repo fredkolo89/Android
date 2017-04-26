@@ -28,13 +28,15 @@ public class DirectionFinder {
     private DirectionFinderListener listener;
     private String origin;
     private String destination;
+    private String drive;
     private List <String> allPoints;
 
-    public DirectionFinder(DirectionFinderListener listener, String origin, String destination, List <String> allPoints) {
+    public DirectionFinder(DirectionFinderListener listener, String origin, String destination, List <String> allPoints, String drive) {
         this.listener = listener;
         this.origin = origin;
         this.destination = destination;
         this.allPoints = allPoints;
+        this.drive = drive;
     }
 
 
@@ -64,7 +66,7 @@ public class DirectionFinder {
         String urlOrigin = URLEncoder.encode(a, "utf-8");
         String urlDestination = URLEncoder.encode(b, "utf-8");
 
-        return DIRECTION_URL_API + "origin=" + urlOrigin  +  "&destination=" +  urlDestination + "&mode=walking" + "&key=" + GOOGLE_API_KEY;
+        return DIRECTION_URL_API + "origin=" + urlOrigin  +  "&destination=" +  urlDestination + "&mode="+ drive + "&key=" + GOOGLE_API_KEY;
 
     }
 

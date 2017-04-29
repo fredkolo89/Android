@@ -103,8 +103,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         btnFindPath = (Button) findViewById(R.id.btnFindPath);
-        etOrigin = (Button) findViewById(R.id.origin_address);
-        etDestination = (Button) findViewById(R.id.destination_address);
+        etOrigin = (Button) findViewById(R.id.start_address);
+        etDestination = (Button) findViewById(R.id.end_address);
         findAll = (CheckBox) findViewById(R.id.checkBox_find_all);
         checkFromAll = (Button)findViewById(R.id.checkPlacesFromAll);
         mode = (Button)findViewById(R.id.driverMode);

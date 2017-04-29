@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.menu.MenuActivity"
-    android:background="#9494a0"
+    android:background="#FFFF99"
     android:orientation="vertical">
 
 
@@ -44,21 +44,22 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.134" />
+        app:layout_constraintVertical_bias="0.14"
+        app:layout_constraintHorizontal_bias="0.503" />
 
     <Button
         android:id="@+id/maps_button"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="234dp"
+        android:layout_height="94dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:layout_width="234dp"
-        android:layout_height="94dp"
-        android:background="@color/zxing_viewfinder_laser"
+        android:background="@android:color/darker_gray"
+        android:onClick="OpenMaps"
         android:text="Przewodnik"
         android:textSize="25dp"
-        android:onClick="OpenMaps"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -1,4 +1,3 @@
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -8,55 +7,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:background="#FFFF99">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        >
+        android:weightSum="1">
 
-    <Button
-        android:id="@+id/origin_address"
-        android:layout_width="266dp"
-        android:layout_height="wrap_content"
-        android:onClick="chosePlaceOrigin"
-        android:text="Origin address" />
-
-    <CheckBox
-        android:id="@+id/checkBox_find_all"
-        android:layout_width="match_parent"
-        android:layout_height="51dp"
-        android:onClick="itemClicked"
-        android:text="All" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-    <Button
-        android:id="@+id/destination_address"
-        android:layout_width="266dp"
-        android:layout_height="wrap_content"
-        android:onClick="chosePlaceDestination"
-        android:text="Destination address"
-       />
+        <Button
+            android:id="@+id/start_address"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:background="@color/zxing_custom_viewfinder_laser"
+            android:onClick="chosePlaceOrigin"
+            android:text="Origin address" />
 
         <Button
             android:id="@+id/checkPlacesFromAll"
-            android:layout_width="95dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/holo_red_light"
             android:onClick="checkPlacesFromAll"
             android:text="Check" />
-
-
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/end_address"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:background="@color/zxing_custom_viewfinder_laser"
+            android:onClick="chosePlaceDestination"
+            android:text="Destination address" />
+
+        <Button
+            android:id="@+id/driverMode"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/holo_red_light"
+            android:onClick="chooseDriverMode"
+            android:text="Srodek" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    </LinearLayout>
 
 
     <LinearLayout
@@ -67,48 +90,50 @@
 
         <Button
             android:id="@+id/btnFindPath"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/holo_purple"
+            android:text="Szukaj" />
+
+        <CheckBox
+            android:id="@+id/checkBox_find_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Find path" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="3dp"
+            android:onClick="itemClicked"
+            android:text="All" />
 
         <TextView
             android:id="@+id/tvDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="3dp"
             android:text="0 km" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="13dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp" />
-
-        <Button
-            android:id="@+id/driverMode"
-            android:layout_width="52dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.68"
-            android:text="Srodek"
-            android:onClick="chooseDriverMode"/>
 
         <Button
             android:id="@+id/chooseView"
-            android:layout_width="22dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="C"
-            android:layout_weight="0.14"
-            android:onClick="chooseViewMode"/>
-
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@android:color/holo_red_light"
+            android:onClick="chooseViewMode"
+            android:text="Widok" />
     </LinearLayout>
-
 
     <fragment
         android:id="@+id/map"

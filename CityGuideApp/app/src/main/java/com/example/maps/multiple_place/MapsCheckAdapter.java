@@ -1,4 +1,4 @@
-package com.example.maps;
+package com.example.maps.multiple_place;
 
 import android.app.Activity;
 import android.content.Context;

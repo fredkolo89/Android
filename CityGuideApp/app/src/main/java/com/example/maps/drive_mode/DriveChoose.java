@@ -1,4 +1,4 @@
-package com.example.maps;
+package com.example.maps.drive_mode;
 
 import android.app.Activity;
 import android.content.Intent;

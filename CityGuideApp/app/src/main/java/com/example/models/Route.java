@@ -1,4 +1,4 @@
-package Modules;
+package com.example.models;
 
 import com.google.android.gms.maps.model.LatLng;
 

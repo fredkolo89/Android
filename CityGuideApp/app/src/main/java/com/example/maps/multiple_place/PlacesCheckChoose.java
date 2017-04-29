@@ -1,14 +1,13 @@
-package com.example.maps;
+package com.example.maps.multiple_place;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.models.BarcodeItem;
 import com.example.cityguideapp.R;
+import com.example.models.BarcodeItem;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
@@ -21,7 +20,6 @@ public class PlacesCheckChoose extends Activity {
 
     private MobileServiceClient mClient;
     private MobileServiceTable<BarcodeItem> mToDoTable;
-    private EditText mTextNewToDo;
     private MapsCheckAdapter mAdapter;
     private ListView listPerasat;
     private ArrayList<String> checkPlaces = new ArrayList<>();
@@ -36,11 +34,6 @@ public class PlacesCheckChoose extends Activity {
         Intent intent = this.getIntent();
         thumbs =  intent.getStringArrayListExtra("cos");
 
-
-
-
-
-        mTextNewToDo = (EditText) findViewById(R.id.textNewToDo);
 
 
 

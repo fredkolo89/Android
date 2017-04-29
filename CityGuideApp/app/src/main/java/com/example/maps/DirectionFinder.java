@@ -1,7 +1,10 @@
-package Modules;
+package com.example.maps;
 
 import android.os.AsyncTask;
 
+import com.example.models.Distance;
+import com.example.models.Duration;
+import com.example.models.Route;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -18,6 +21,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.helper.DirectionFinderListener;
 
 /**
  * Created by Mai Thanh Hiep on 4/3/2016.

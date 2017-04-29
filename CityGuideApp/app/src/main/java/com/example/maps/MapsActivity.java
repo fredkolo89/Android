@@ -18,6 +18,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.maps.drive_mode.DriveChoose;
+import com.example.maps.multiple_place.PlacesCheckChoose;
+import com.example.maps.single_place.PlacesChoose;
 import com.example.models.BarcodeItem;
 import com.example.cityguideapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,9 +46,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import Modules.DirectionFinder;
-import Modules.DirectionFinderListener;
-import Modules.Route;
+import com.example.helper.DirectionFinderListener;
+import com.example.models.Route;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, Serializable {

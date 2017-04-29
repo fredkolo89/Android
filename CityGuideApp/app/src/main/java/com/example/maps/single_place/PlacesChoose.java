@@ -1,13 +1,12 @@
-package com.example.maps;
+package com.example.maps.single_place;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.models.BarcodeItem;
 import com.example.cityguideapp.R;
+import com.example.models.BarcodeItem;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
@@ -20,7 +19,6 @@ public class PlacesChoose extends Activity {
 
     private MobileServiceClient mClient;
     private MobileServiceTable<BarcodeItem> mToDoTable;
-    private EditText mTextNewToDo;
     private MapsAdapter mAdapter;
     private ListView listPerasat;
 
@@ -37,9 +35,6 @@ public class PlacesChoose extends Activity {
         thumbs =  intent.getStringArrayListExtra("cos");
 
 
-
-
-            mTextNewToDo = (EditText) findViewById(R.id.textNewToDo);
 
 
 

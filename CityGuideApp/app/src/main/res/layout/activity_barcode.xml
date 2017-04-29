@@ -3,13 +3,14 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FDD835"
     android:orientation="vertical"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#71BCFA"
+        android:background="#00CCCC"
         android:padding="6dip" >
 
         <TextView
@@ -26,16 +27,14 @@
      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#71BCFA"
+        android:background="#00CCCC"
         android:padding="6dip"  >
-
-
 
     </LinearLayout>
 
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -46,11 +45,12 @@
 
 
             <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="364dp"
+                android:id="@+id/imageFirst"
+                android:layout_width="match_parent"
                 android:layout_height="239dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:layout_weight="0.79" />
 
             <TextView
                 android:id="@+id/textFirst"
@@ -64,11 +64,12 @@
                 android:layout_marginTop="8dp"/>
 
             <ImageView
-                android:id="@+id/imageStartView"
-                android:layout_width="364dp"
+                android:id="@+id/imageSecond"
+                android:layout_width="match_parent"
                 android:layout_height="239dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:layout_weight="0.79" />
 
             <TextView
                 android:id="@+id/textSecond"

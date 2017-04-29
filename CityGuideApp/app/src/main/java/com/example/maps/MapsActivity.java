@@ -18,7 +18,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.barcode.BarcodeItem;
+import com.example.models.BarcodeItem;
 import com.example.cityguideapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

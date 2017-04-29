@@ -1,4 +1,4 @@
-package com.example.barcode;
+package com.example.models;
 
 
 import java.io.Serializable;

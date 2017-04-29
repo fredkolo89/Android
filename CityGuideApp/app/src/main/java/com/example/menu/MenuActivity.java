@@ -10,9 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.barcode.AsyncResponse;
 import com.example.barcode.BarcodeActivity;
-import com.example.barcode.BarcodeItem;
+import com.example.models.BarcodeItem;
 import com.example.cityguideapp.R;
 import com.example.maps.MapsActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -38,7 +37,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-public class MenuActivity extends Activity implements AsyncResponse {
+public class MenuActivity extends Activity {
 
     private Button scan_btn;
 
@@ -66,10 +65,6 @@ public class MenuActivity extends Activity implements AsyncResponse {
                 integrator.initiateScan();
             }
         });
-
-
-
-        
     }
 
 
@@ -92,9 +87,8 @@ public class MenuActivity extends Activity implements AsyncResponse {
 
 
     public void OpenMaps(View view) {
-
+        ///
         try {
-
             mClient = new MobileServiceClient(
                     "https://cityguideapp.azurewebsites.net",
                     this);
@@ -113,10 +107,7 @@ public class MenuActivity extends Activity implements AsyncResponse {
 
             initLocalStore().get();
 
-
-            MenuActivity.trzask asyncTask = new MenuActivity.trzask();
-
-            asyncTask.delegate = this;
+            MenuActivity.MapsNavigator asyncTask = new MenuActivity.MapsNavigator();
 
             asyncTask.execute();
 
@@ -126,35 +117,17 @@ public class MenuActivity extends Activity implements AsyncResponse {
             createAndShowDialog(e, "Error");
         }
 
-
     }
 
 
-
-
-
-
-
-
-
-
-
-    /**
-     * Initialize local storage
-     * @return
-     * @throws MobileServiceLocalStoreException
-     * @throws ExecutionException
-     * @throws InterruptedException
-     */
+    //inicjalizacja modelu
     private AsyncTask<Void, Void, Void> initLocalStore() throws MobileServiceLocalStoreException, ExecutionException, InterruptedException {
 
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-
                     MobileServiceSyncContext syncContext = mClient.getSyncContext();
-
                     if (syncContext.isInitialized())
                         return null;
 
@@ -170,7 +143,6 @@ public class MenuActivity extends Activity implements AsyncResponse {
                     tableDefinition.put("name", ColumnDataType.String);
                     tableDefinition.put("imageLinkFirst", ColumnDataType.String);
                     tableDefinition.put("imageLinkSecond", ColumnDataType.String);
-
 
                     localStore.defineTable("barcodeItem", tableDefinition);
 
@@ -189,14 +161,7 @@ public class MenuActivity extends Activity implements AsyncResponse {
         return runAsyncTask(task);
     }
 
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param exception
-     *            The exception to show in the dialog
-     * @param title
-     *            The dialog title
-     */
+
     private void createAndShowDialogFromTask(final Exception exception, String title) {
         runOnUiThread(new Runnable() {
             @Override
@@ -206,15 +171,6 @@ public class MenuActivity extends Activity implements AsyncResponse {
         });
     }
 
-
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param exception
-     *            The exception to show in the dialog
-     * @param title
-     *            The dialog title
-     */
     private void createAndShowDialog(Exception exception, String title) {
         Throwable ex = exception;
         if(exception.getCause() != null){
@@ -223,14 +179,6 @@ public class MenuActivity extends Activity implements AsyncResponse {
         createAndShowDialog(ex.getMessage(), title);
     }
 
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param message
-     *            The dialog message
-     * @param title
-     *            The dialog title
-     */
     private void createAndShowDialog(final String message, final String title) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -239,11 +187,6 @@ public class MenuActivity extends Activity implements AsyncResponse {
         builder.create().show();
     }
 
-    /**
-     * Run an ASync task on the corresponding executor
-     * @param task
-     * @return
-     */
     private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -252,42 +195,15 @@ public class MenuActivity extends Activity implements AsyncResponse {
         }
     }
 
-
-    @Override
-    public void processFinish(BarcodeItem output) {
-
-        //etOrigin.setText(output.getName());
-
-    }
-
-    @Override
-    public void processFinish(List<BarcodeItem> output) {
-
-        Intent intent = new Intent(this, MapsActivity.class);
-       // intent.putExtra("serializable_extra", (Serializable) output);
-        startActivity(intent);
-
-
-
-        // etOrigin = (Button) findViewById(R.id.origin_address);
-
-        //etOrigin.setText(output.get(0).getName());
-        //barcodeItems=output;
-
-    }
-
     private List<BarcodeItem> refreshItemsFromMobileServiceTable() throws ExecutionException, InterruptedException, MobileServiceException {
         return mToDoTable.execute().get();
     }
 
 
 
-    public class trzask extends AsyncTask<Void, Void,  List<BarcodeItem>>  {
-
-        public AsyncResponse delegate = null;
-        List<BarcodeItem>  desig= new ArrayList<>();
-
-
+    public class MapsNavigator extends AsyncTask<Void, Void,  List<BarcodeItem>>  {
+        ///
+        List<BarcodeItem>  desig = new ArrayList<>();
 
         @Override
         protected  List<BarcodeItem> doInBackground(Void... params) {
@@ -295,11 +211,7 @@ public class MenuActivity extends Activity implements AsyncResponse {
                 final MobileServiceList<BarcodeItem> result =
                         mToDoTable.execute().get();
                 for (BarcodeItem item : result) {
-
-
                     desig.add(item);
-                    // Log.v("FINALLY DESIGNATION IS", desig.getId());
-
                 }
 
             } catch (Exception exception) {
@@ -310,26 +222,16 @@ public class MenuActivity extends Activity implements AsyncResponse {
 
         @Override
         protected void onPostExecute( List<BarcodeItem> los) {
-            // super.onPostExecute(los);
-            //textView.setText(los.get(0));
-           // delegate.processFinish(los);
-
-
             Intent intent_name = new Intent();
 
             Bundle bundle = new Bundle();
             bundle.putSerializable("value", (Serializable) los);
             intent_name.putExtras(bundle);
 
-
             intent_name.setClass(getApplicationContext(),MapsActivity.class);
             startActivity(intent_name);
-
         }
     }
-
-
-
 
 }
 

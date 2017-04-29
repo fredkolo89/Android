@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.barcode.BarcodeItem;
+import com.example.models.BarcodeItem;
 import com.example.cityguideapp.R;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;

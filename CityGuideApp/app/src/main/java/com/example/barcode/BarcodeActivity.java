@@ -6,11 +6,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cityguideapp.R;
+import com.example.helper.AsyncResponse;
+import com.example.models.BarcodeItem;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
@@ -25,7 +26,6 @@ import com.squareup.picasso.Picasso;
 
 import java.net.MalformedURLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -37,16 +37,24 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
     
     private MobileServiceTable<BarcodeItem> mToDoTable;
 
-    private EditText mTextNewToDo;
-
+    private TextView textViewTitle;
+    private ImageView imageFirst;
+    private ImageView imageSecond;
+    private TextView textOne;
+    private TextView textSecond;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
 
-        try {
+        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+        imageFirst = (ImageView) findViewById(R.id.imageFirst);
+        imageSecond = (ImageView) findViewById(R.id.imageSecond);
+        textOne = (TextView) findViewById(R.id.textFirst);
+        textSecond = (TextView) findViewById(R.id.textSecond);
 
+        try {
             mClient = new MobileServiceClient(
                     "https://cityguideapp.azurewebsites.net",
                     this);
@@ -65,14 +73,10 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
 
             initLocalStore().get();
 
-
-            mTextNewToDo = (EditText) findViewById(R.id.textNewToDo);
-
             Bundle b = getIntent().getExtras();
             String name = b.getString("visitPlace");
 
             TakeItem asyncTask =new TakeItem(name);
-
             asyncTask.delegate = this;
 
             asyncTask.execute();
@@ -84,7 +88,6 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
             createAndShowDialog(e, "Error");
         }
 
-
     }
 
     @Override
@@ -92,7 +95,6 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
-
 
     /**
      * Initialize local storage
@@ -126,7 +128,6 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
                     tableDefinition.put("imageLinkFirst", ColumnDataType.String);
                     tableDefinition.put("imageLinkSecond", ColumnDataType.String);
 
-
                     localStore.defineTable("barcodeItem", tableDefinition);
 
                     SimpleSyncHandler handler = new SimpleSyncHandler();
@@ -144,14 +145,7 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
         return runAsyncTask(task);
     }
 
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param exception
-     *            The exception to show in the dialog
-     * @param title
-     *            The dialog title
-     */
+
     private void createAndShowDialogFromTask(final Exception exception, String title) {
         runOnUiThread(new Runnable() {
             @Override
@@ -162,14 +156,6 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
     }
 
 
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param exception
-     *            The exception to show in the dialog
-     * @param title
-     *            The dialog title
-     */
     private void createAndShowDialog(Exception exception, String title) {
         Throwable ex = exception;
         if(exception.getCause() != null){
@@ -178,14 +164,7 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
         createAndShowDialog(ex.getMessage(), title);
     }
 
-    /**
-     * Creates a dialog and shows it
-     *
-     * @param message
-     *            The dialog message
-     * @param title
-     *            The dialog title
-     */
+
     private void createAndShowDialog(final String message, final String title) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -194,11 +173,7 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
         builder.create().show();
     }
 
-    /**
-     * Run an ASync task on the corresponding executor
-     * @param task
-     * @return
-     */
+
     private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -209,75 +184,59 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
 
     @Override
     public void processFinish(BarcodeItem output) {
+        ///
+        textViewTitle.setText(output.getName());
 
-        TextView textView = (TextView) findViewById(R.id.textViewTitle);
-        textView.setText(output.getName());
+        Picasso.with(this).load(output.getImageLinkFirst()).into(imageFirst);
+        Picasso.with(this).load(output.getImageLinkSecond()).into(imageSecond);
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageStartView);
-        ImageView imageView2 = (ImageView) findViewById(R.id.imageView2);
-        TextView textOne = (TextView) findViewById(R.id.textFirst);
-        TextView textSecond = (TextView) findViewById(R.id.textSecond);
-
-        Picasso.with(this).load(output.getImageLinkFirst()).into(imageView);
-        Picasso.with(this).load(output.getImageLinkSecond()).into(imageView2);
         textOne.setText(output.getDescriptionFirst());
         textSecond.setText(output.getDescriptionSecond());
-
-    }
-
-    @Override
-    public void processFinish(List<BarcodeItem> output) {
-
-
-
     }
 
 
 
-        public class TakeItem extends AsyncTask<Void, Void, BarcodeItem> {
+    public class TakeItem extends AsyncTask<Void, Void, BarcodeItem> {
 
-            public AsyncResponse delegate = null;
-            BarcodeItem desig = null;
+        public AsyncResponse delegate = null;
+        BarcodeItem desig = null;
 
-            private String name;
+        private String name;
 
-            public String getName() {
+        public TakeItem(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
                 return name;
             }
-
-            public void setName(String name) {
+        public void setName(String name) {
                 this.name = name;
             }
 
-            public TakeItem(String name) {
-                this.name = name;
-            }
-
-            @Override
-            protected BarcodeItem doInBackground(Void... params) {
-                try {
-                    final MobileServiceList<BarcodeItem> result =
-                            mToDoTable.where().field("name").eq(name).execute().get();
-                    for (BarcodeItem item : result) {
 
 
-                        desig = item;
+        @Override
+        protected BarcodeItem doInBackground(Void... params) {
+            try {
+                final MobileServiceList<BarcodeItem> result =
+                        mToDoTable.where().field("name").eq(name).execute().get();
+                for (BarcodeItem item : result) {
 
-
-                    }
-
-                } catch (Exception exception) {
-                    exception.printStackTrace();
+                       desig = item;
                 }
-                return desig;
-            }
 
-            @Override
-            protected void onPostExecute( BarcodeItem los) {
-                // super.onPostExecute(los);
-                //textView.setText(los.get(0));
-                delegate.processFinish(los);
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
+            return desig;
         }
+
+        @Override
+        protected void onPostExecute( BarcodeItem los) {
+        ///
+            delegate.processFinish(los);
+        }
+    }
 
 }

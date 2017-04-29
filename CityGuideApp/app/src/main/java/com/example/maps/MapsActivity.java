@@ -66,6 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String originText = "Start";
     private String destinationText ="Koniec";
     private String drive = "driving";
+    private int viewSatelliteMaps=1;
 
     private List<BarcodeItem> barcodeItems = new ArrayList<>();
     private ArrayList<String> listCheckPlaces = new ArrayList<>();
@@ -231,6 +232,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
+    public void chooseViewMode(View view) {
+        if (viewSatelliteMaps==1)
+            viewSatelliteMaps=2;
+        else
+            viewSatelliteMaps=1;
+    }
+
 
     public void itemClicked(View v) {
         //code to check if this checkbox is checked!
@@ -326,7 +334,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     return;
                                 }
 
+
+
                             mMap.setMyLocationEnabled(true);
+
                         }
                     });
                 } catch (final Exception e){
@@ -405,6 +416,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         }
+
+        mMap.setMapType(viewSatelliteMaps);
         polylinePaths.add(mMap.addPolyline(polylineOptions));
     }
 

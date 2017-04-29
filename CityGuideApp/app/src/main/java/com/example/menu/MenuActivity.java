@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.example.barcode.AsyncResponse;
 import com.example.barcode.BarcodeActivity;
 import com.example.barcode.BarcodeItem;
-import com.example.cityguideapp.MainActivity;
 import com.example.cityguideapp.R;
 import com.example.maps.MapsActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -91,16 +90,6 @@ public class MenuActivity extends Activity implements AsyncResponse {
         }
     }
 
-    public void toDOOpen(View view) {
-        Intent intent=new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-
-    public void OpenBarcode(View view) {
-        Intent intent = new Intent(this, BarcodeActivity.class);
-        startActivity(intent);
-    }
 
     public void OpenMaps(View view) {
 

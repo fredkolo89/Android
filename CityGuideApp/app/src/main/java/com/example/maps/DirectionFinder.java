@@ -2,6 +2,7 @@ package com.example.maps;
 
 import android.os.AsyncTask;
 
+import com.example.helper.DirectionFinderListener;
 import com.example.models.Distance;
 import com.example.models.Duration;
 import com.example.models.Route;
@@ -22,11 +23,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.helper.DirectionFinderListener;
-
-/**
- * Created by Mai Thanh Hiep on 4/3/2016.
- */
 public class DirectionFinder {
     private static final String DIRECTION_URL_API = "https://maps.googleapis.com/maps/api/directions/json?";
     private static final String GOOGLE_API_KEY = "AIzaSyAVHYWs-Mz9lGBXagdre7HMk6FymebQGEI";

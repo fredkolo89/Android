@@ -11,22 +11,23 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="281dp"
-        android:layout_height="44dp"
+        android:layout_width="300dp"
+        android:layout_height="52dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="QR code scanner!"
+        android:text="QR code navigator!"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.121" />
+        app:layout_constraintVertical_bias="0.123"
+        tools:layout_editor_absoluteY="63dp"
+        app:layout_constraintHorizontal_bias="0.51" />
 
     <Button
         android:id="@+id/scan_btn"

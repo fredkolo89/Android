@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -90,13 +89,7 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
-    /**
+     /**
      * Initialize local storage
      * @return
      * @throws MobileServiceLocalStoreException

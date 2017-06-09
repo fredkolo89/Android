@@ -72,7 +72,7 @@
             android:layout_marginTop="3dp"
             android:background="@android:color/holo_red_light"
             android:onClick="chooseDriverMode"
-            android:text="Srodek" />
+            android:text="How?" />
     </LinearLayout>
 
     <LinearLayout
@@ -98,7 +98,7 @@
             android:layout_marginRight="3dp"
             android:layout_marginTop="3dp"
             android:background="@android:color/holo_purple"
-            android:text="Szukaj" />
+            android:text="Search" />
 
         <CheckBox
             android:id="@+id/checkBox_find_all"
@@ -132,7 +132,7 @@
             android:layout_marginTop="3dp"
             android:background="@android:color/holo_red_light"
             android:onClick="chooseViewMode"
-            android:text="Widok" />
+            android:text="View" />
     </LinearLayout>
 
     <fragment

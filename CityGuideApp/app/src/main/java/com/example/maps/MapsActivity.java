@@ -18,11 +18,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cityguideapp.R;
+import com.example.helper.DirectionFinderListener;
 import com.example.maps.drive_mode.DriveChoose;
 import com.example.maps.multiple_place.PlacesCheckChoose;
 import com.example.maps.single_place.PlacesChoose;
 import com.example.models.BarcodeItem;
-import com.example.cityguideapp.R;
+import com.example.models.Route;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,9 +48,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import com.example.helper.DirectionFinderListener;
-import com.example.models.Route;
-
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, Serializable {
 
@@ -65,8 +64,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button mode;
 
     private String driveMode = "driving";
-    private String originText = "Start";
-    private String destinationText ="Koniec";
+    private String originText = "Origin address";
+    private String destinationText ="Destination address";
     private String drive = "driving";
     private int viewSatelliteMaps=1;
 
@@ -255,7 +254,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (etOrigin.getText().equals("Start") && data.getStringExtra("NAMA_PERASAT")!=null) {
+        if (etOrigin.getText().equals("Origin address") && data.getStringExtra("NAMA_PERASAT")!=null) {
             originText=data.getStringExtra("NAMA_PERASAT");
             etOrigin.setText(originText);
         }

@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 public class BarcodeActivity extends Activity implements AsyncResponse {
 
     private MobileServiceClient mClient;
-    
     private MobileServiceTable<BarcodeItem> mToDoTable;
 
     private TextView textViewTitle;
@@ -54,6 +53,7 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
         textSecond = (TextView) findViewById(R.id.textSecond);
 
         try {
+
             mClient = new MobileServiceClient(
                     "https://cityguideapp.azurewebsites.net",
                     this);
@@ -80,7 +80,6 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
 
             asyncTask.execute();
 
-
         } catch (MalformedURLException e) {
             createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
         } catch (Exception e){
@@ -89,18 +88,14 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
 
     }
 
-     /**
-     * Initialize local storage
-     * @return
-     * @throws MobileServiceLocalStoreException
-     * @throws ExecutionException
-     * @throws InterruptedException
-     */
+
     private AsyncTask<Void, Void, Void> initLocalStore() throws MobileServiceLocalStoreException, ExecutionException, InterruptedException {
 
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+
             @Override
             protected Void doInBackground(Void... params) {
+
                 try {
 
                     MobileServiceSyncContext syncContext = mClient.getSyncContext();
@@ -122,9 +117,7 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
                     tableDefinition.put("imageLinkSecond", ColumnDataType.String);
 
                     localStore.defineTable("barcodeItem", tableDefinition);
-
                     SimpleSyncHandler handler = new SimpleSyncHandler();
-
                     syncContext.initialize(localStore, handler).get();
 
                 } catch (final Exception e) {
@@ -208,10 +201,11 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
             }
 
 
-
         @Override
         protected BarcodeItem doInBackground(Void... params) {
+
             try {
+
                 final MobileServiceList<BarcodeItem> result =
                         mToDoTable.where().field("name").eq(name).execute().get();
                 for (BarcodeItem item : result) {
@@ -227,7 +221,7 @@ public class BarcodeActivity extends Activity implements AsyncResponse {
 
         @Override
         protected void onPostExecute( BarcodeItem los) {
-        ///
+
             delegate.processFinish(los);
         }
     }

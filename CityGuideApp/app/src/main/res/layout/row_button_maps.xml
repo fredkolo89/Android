@@ -5,7 +5,6 @@
     android:orientation="horizontal"
     android:weightSum="1">
 
-
     <Button
         android:id="@+id/selectPlace"
         android:layout_width="match_parent"

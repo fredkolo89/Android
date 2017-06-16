@@ -6,8 +6,6 @@
     android:orientation="vertical"
     >
 
-
-
     <ListView
         android:id="@+id/listCheckMapsPlaces"
         android:layout_width="match_parent"
@@ -15,7 +13,6 @@
         android:padding="6dip"
         android:clickable="true"
         tools:listitem="@layout/row_list_to_do">
-
     </ListView>
 
     <Button

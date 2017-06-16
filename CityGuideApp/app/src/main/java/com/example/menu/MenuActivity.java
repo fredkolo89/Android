@@ -40,9 +40,7 @@ import java.util.concurrent.TimeUnit;
 public class MenuActivity extends Activity {
 
     private Button scan_btn;
-
     private MobileServiceClient mClient;
-
     private MobileServiceTable<BarcodeItem> mToDoTable;
 
     @Override
@@ -92,7 +90,6 @@ public class MenuActivity extends Activity {
             mClient = new MobileServiceClient(
                     "https://cityguideapp.azurewebsites.net",
                     this);
-
             mClient.setAndroidHttpClientFactory(new OkHttpClientFactory() {
                 @Override
                 public OkHttpClient createOkHttpClient() {
@@ -104,11 +101,9 @@ public class MenuActivity extends Activity {
             });
 
             mToDoTable = mClient.getTable(BarcodeItem.class);
-
             initLocalStore().get();
 
             MenuActivity.MapsNavigator asyncTask = new MenuActivity.MapsNavigator();
-
             asyncTask.execute();
 
         } catch (MalformedURLException e) {
@@ -145,9 +140,7 @@ public class MenuActivity extends Activity {
                     tableDefinition.put("imageLinkSecond", ColumnDataType.String);
 
                     localStore.defineTable("barcodeItem", tableDefinition);
-
                     SimpleSyncHandler handler = new SimpleSyncHandler();
-
                     syncContext.initialize(localStore, handler).get();
 
                 } catch (final Exception e) {
@@ -198,7 +191,6 @@ public class MenuActivity extends Activity {
     private List<BarcodeItem> refreshItemsFromMobileServiceTable() throws ExecutionException, InterruptedException, MobileServiceException {
         return mToDoTable.execute().get();
     }
-
 
 
     public class MapsNavigator extends AsyncTask<Void, Void,  List<BarcodeItem>>  {

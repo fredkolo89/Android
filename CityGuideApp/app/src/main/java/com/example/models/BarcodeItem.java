@@ -84,21 +84,15 @@ public class BarcodeItem implements Serializable{
         return descriptionFirst;
     }
 
-    public void setDescriptionFirst(String descriptionFirst) {
-        this.descriptionFirst = descriptionFirst;
-    }
+    public void setDescriptionFirst(String descriptionFirst) { this.descriptionFirst = descriptionFirst; }
 
     public String getDescriptionSecond() {
         return descriptionSecond;
     }
 
-    public void setDescriptionSecond(String descriptionSecond) {
-        this.descriptionSecond = descriptionSecond;
-    }
+    public void setDescriptionSecond(String descriptionSecond) { this.descriptionSecond = descriptionSecond; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name; }
 
     public void setName(String name) {
         this.name = name;
@@ -116,7 +110,5 @@ public class BarcodeItem implements Serializable{
         return imageLinkSecond;
     }
 
-    public void setImageLinkSecond(String imageLinkSecond) {
-        this.imageLinkSecond = imageLinkSecond;
-    }
+    public void setImageLinkSecond(String imageLinkSecond) { this.imageLinkSecond = imageLinkSecond; }
 }

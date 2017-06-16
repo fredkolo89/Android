@@ -10,19 +10,10 @@ import android.widget.Button;
 
 import com.example.cityguideapp.R;
 
-/**
- * Adapter to bind a ToDoItem List to a view
- */
 public class MapsAdapter extends ArrayAdapter<String> {
 
-    /**
-     * Adapter context
-     */
     Context mContext;
 
-    /**
-     * Adapter View layout
-     */
     int mLayoutResourceId;
 
     public MapsAdapter(Context context, int layoutResourceId) {
@@ -32,9 +23,6 @@ public class MapsAdapter extends ArrayAdapter<String> {
         mLayoutResourceId = layoutResourceId;
     }
 
-    /**
-     * Returns the view for a specific item on the list
-     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
@@ -46,27 +34,22 @@ public class MapsAdapter extends ArrayAdapter<String> {
             row = inflater.inflate(mLayoutResourceId, parent, false);
         }
 
-
         final Button button = (Button) row.findViewById(R.id.selectPlace);
 
             row.setTag(currentItem);
-
             button.setText(currentItem);
-
-
 
             button.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View arg0) {
+                @Override
+                public void onClick(View arg0) {
 
-                    if (mContext instanceof PlacesChoose) {
-                        PlacesChoose activity = (PlacesChoose) mContext;
-                        activity.addtocart(currentItem);
+                        if (mContext instanceof PlacesChoose) {
+                            PlacesChoose activity = (PlacesChoose) mContext;
+                            activity.addtocart(currentItem);
+                        }
                     }
-                }
-
-        });
+             });
 
         return row;
     }

@@ -10,7 +10,6 @@ import com.example.cityguideapp.R;
 
 public class ToDoActivity extends Activity {
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

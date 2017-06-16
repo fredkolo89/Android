@@ -209,27 +209,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void checkPlacesFromAll(View view) {
         Intent intent = new Intent(this, PlacesCheckChoose.class);
 
-        intent.putStringArrayListExtra("cos", (ArrayList<String>) namePlace);
+        intent.putStringArrayListExtra("value", (ArrayList<String>) namePlace);
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
 
     public void chosePlaceOrigin(View view) {
         Intent intent = new Intent(this, PlacesChoose.class);
-        intent.putStringArrayListExtra("cos", (ArrayList<String>) namePlace);
+        intent.putStringArrayListExtra("value", (ArrayList<String>) namePlace);
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
 
     public void chosePlaceDestination(View view) {
         Intent intent = new Intent(this, PlacesChoose.class);
-        intent.putStringArrayListExtra("cos", (ArrayList<String>) namePlace);
+        intent.putStringArrayListExtra("value", (ArrayList<String>) namePlace);
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
     public void chooseDriverMode(View view) {
         Intent intent = new Intent(this, DriveChoose.class);
-        intent.putStringArrayListExtra("cos", (ArrayList<String>) namePlace);
+        intent.putStringArrayListExtra("value", (ArrayList<String>) namePlace);
         startActivityForResult(intent, SOME_REQUEST_CODE);
     }
 
@@ -254,20 +254,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (etOrigin.getText().equals("Origin address") && data.getStringExtra("NAMA_PERASAT")!=null) {
-            originText=data.getStringExtra("NAMA_PERASAT");
+        if (etOrigin.getText().equals("Origin address") && data.getStringExtra("PLACE_NAME")!=null) {
+            originText=data.getStringExtra("PLACE_NAME");
             etOrigin.setText(originText);
         }
-        else if(data.getStringExtra("NAMA_PERASAT")!=null){
-            destinationText = data.getStringExtra("NAMA_PERASAT");
+        else if(data.getStringExtra("PLACE_NAME")!=null){
+            destinationText = data.getStringExtra("PLACE_NAME");
             etDestination.setText(destinationText);
         }
-        if(data.getStringArrayListExtra("NAMA_List_PERASAT")!=null){
-            listCheckPlaces = data.getStringArrayListExtra("NAMA_List_PERASAT");
+        if(data.getStringArrayListExtra("PLACE_NAME_LIST")!=null){
+            listCheckPlaces = data.getStringArrayListExtra("PLACE_NAME_LIST");
         }
 
-        if(data.getStringExtra("driveWay")!=null){
-            drive = data.getStringExtra("driveWay");
+        if(data.getStringExtra("DRIVE_WAY")!=null){
+            drive = data.getStringExtra("DRIVE_WAY");
             mode.setText(drive);
         }
 

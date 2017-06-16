@@ -10,19 +10,10 @@ import android.widget.CheckBox;
 
 import com.example.cityguideapp.R;
 
-/**
- * Adapter to bind a ToDoItem List to a view
- */
 public class MapsCheckAdapter extends ArrayAdapter<String> {
 
-    /**
-     * Adapter context
-     */
-    Context mContext;
 
-    /**
-     * Adapter View layout
-     */
+    Context mContext;
     int mLayoutResourceId;
 
     public MapsCheckAdapter(Context context, int layoutResourceId) {
@@ -32,9 +23,7 @@ public class MapsCheckAdapter extends ArrayAdapter<String> {
         mLayoutResourceId = layoutResourceId;
     }
 
-    /**
-     * Returns the view for a specific item on the list
-     */
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
@@ -46,14 +35,12 @@ public class MapsCheckAdapter extends ArrayAdapter<String> {
             row = inflater.inflate(mLayoutResourceId, parent, false);
         }
 
-
         final CheckBox check = (CheckBox) row.findViewById(R.id.checkToDoItem);
 
             row.setTag(currentItem);
-
             check.setText(currentItem);
 
-                     check.setOnClickListener(new View.OnClickListener() {
+            check.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
@@ -68,6 +55,5 @@ public class MapsCheckAdapter extends ArrayAdapter<String> {
 
         return row;
     }
-
 
 }

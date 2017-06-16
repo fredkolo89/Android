@@ -19,9 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_weight="0.12"
-            android:text="@string/service_title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
     </LinearLayout>
 
      <LinearLayout
@@ -29,9 +27,7 @@
         android:layout_height="wrap_content"
         android:background="#0099FF"
         android:padding="6dip"  >
-
     </LinearLayout>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,7 +38,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:weightSum="1">
-
 
             <ImageView
                 android:id="@+id/imageFirst"
@@ -81,11 +76,8 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"/>
-
         </LinearLayout>
-
     </ScrollView>
-
 
 </LinearLayout>
 

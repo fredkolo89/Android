@@ -17,12 +17,10 @@ public class DriveChoose extends Activity {
     private DriveAdapter mAdapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drive_places);
-
 
         String driveWay[] = {"driving", "walking", "bicycling"};
 
@@ -34,18 +32,14 @@ public class DriveChoose extends Activity {
         mAdapter.addAll(driveList);
         listMaps.setAdapter(mAdapter);
 
-
-
     }
     public void addtocart(String place){
 
         Intent i = new Intent();
-        i.putExtra("driveWay", place);
+        i.putExtra("DRIVE_WAY", place);
         setResult(RESULT_OK, i);
         finish();
 
     }
-
-
 
 }
